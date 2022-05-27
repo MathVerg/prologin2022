@@ -8,6 +8,6 @@ StrategyTest::~StrategyTest()
 {
 }
 
-StrategyTest::play() {
+void StrategyTest::play() {
     
 }
