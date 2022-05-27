@@ -1,10 +1,49 @@
 #include <array>
 #include <vector>
+#include <functional>
 
 #include "api.hh"
 
-/**
- * Gives a list of the neighbors (account for map borders)
- */
-std::vector<position> neighbors(const position& pos);
+typedef std::vector<direction> dir_path;
+typedef std::vector<position> pos_path;
+typedef std::vector<position> pos_vec;
 
+/**
+ * Gives a list of the getNeighbors (account for map borders)
+ */
+pos_vec getNeighbors(const position& pos);
+
+/**
+ * Updates a position according to a direction
+ */
+void updatePos(position &pos, direction dir);
+
+/**
+ * Translates a path given as directions to a path given as positions
+ */
+pos_path pathAsPos(const dir_path &path, const position& start);
+
+/**
+ * Whether a position is crossable or not, ignore the ducks
+ */
+bool isCrossable(position pos);
+
+/**
+ * Create a new position vector by filtering out position that do not match a condition
+ */
+pos_vec posFilter(std::function<bool(position)> f, const pos_vec& sample);
+
+/**
+ * Finds the position in the vector that is the closest from the reference
+ */
+dir_path closestPos(const position& ref, const pos_vec& list);
+
+/**
+ * Finds a position in the vector that at a distance less than dmax from the reference
+ */
+dir_path closePos(const position& ref, const pos_vec& list, uint dmax);
+
+/**
+ * Tells wether there is a duck on this case or not
+ */
+bool isDucked(const position& pos);

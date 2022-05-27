@@ -8,7 +8,10 @@ class Ducktroop
 private:
 protected:
     int id;
-protected:
+public:
+    Ducktroop(/* args */);
+
+    ~Ducktroop();
     /**
      * Object-oriented versions of the troop action
      */
@@ -38,8 +41,14 @@ protected:
      * try to move without dying in order to have no action left
      */
     void exhaut_actions();
-public:
-    Ducktroop(/* args */);
 
-    ~Ducktroop();
+    /**
+     * actions to do at the beginning of a turn
+     */
+    void begin_turn();
+
+    /**
+     * how many actions are left for this turn
+     */
+    int actions_left();
 };

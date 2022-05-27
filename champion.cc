@@ -23,7 +23,7 @@ void jouer_tour()
     if (tour_actuel() == ROUND_FERMETURE + 1) {
         env.init();
     } else {
-        env.update_from_opponent();
+        env.updateFromOpponent();
     }
     strat.play();
 }
