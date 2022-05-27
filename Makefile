@@ -6,5 +6,8 @@ CHAMPION_FILES = champion.cc
 # ----
 # Do not modify the lines below
 
+fight:
+	stechec2-run config.yml
+
 CHAMPION_FILES += interface.cc api.hh
 -include Makefile-cxx
