@@ -246,14 +246,14 @@ position pickPos(const pos_vec& sample) {
 }
 
 bool isNestMine(const position& pos) {
-    return info_nid(pos) == moi();
+    return info_nid(pos) == moi() + 1;
 }
 
 bool isNestFree(const position& pos) {
     return info_nid(pos) == LIBRE;
 }
 bool isNestAdversary(const position& pos) {
-    return info_nid(pos) == adversaire();
+    return info_nid(pos) == adversaire() + 1;
 }
 
 vector<int> getTroupesId(int joueur) {
