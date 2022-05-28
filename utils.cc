@@ -30,26 +30,26 @@ pos_vec getNeighbors(const position& pos) {
     return res;
 }
 
-void updatePos(position &pos, direction dir) {
+void updatePos(position* pos, direction dir) {
     switch (dir)
     {
     case NORD:
-        pos.ligne += 1;
+        pos->ligne += 1;
         break;
     case SUD:
-        pos.ligne -= 1;
+        pos->ligne -= 1;
         break;
     case EST:
-        pos.colonne += 1;
+        pos->colonne += 1;
         break;
     case OUEST:
-        pos.colonne -= 1;
+        pos->colonne -= 1;
         break;
     case HAUT:
-        pos.niveau += 1;
+        pos->niveau += 1;
         break;
     case BAS:
-        pos.niveau -= 1;
+        pos->niveau -= 1;
         break;
     default:
         break;
@@ -60,7 +60,7 @@ pos_path pathAsPos(const dir_path &path, const position& start) {
     pos_path positions = {};
     position current = start;
     for (direction dir : path) {
-        updatePos(current, dir);
+        updatePos(&current, dir);
         positions.push_back(current);
     }
     return positions;
@@ -90,6 +90,7 @@ bool isCrossable(position pos) {
             exit(EXIT_FAILURE);
         }
     }
+    return false; //suppress compiler warning
 }
 
 pos_vec posFilter(std::function<bool(position)> f, const pos_vec& sample) {
@@ -141,4 +142,33 @@ bool isDucked(position& pos) {
         }
     }
     return false;
+}
+
+int manhattanDistance(const position& a, const position& b) {
+    int x = (a.ligne - b.ligne);
+    int y = (a.colonne - b.colonne);
+    return x*x + y*y;
+}
+
+direction findDir(const position& pos, const position& goal) {
+    if (pos.ligne < goal.ligne ) {
+        return NORD;
+    }
+    if (pos.ligne > goal.ligne ) {
+        return SUD;
+    }
+    if (pos.colonne < goal.colonne ) {
+        return EST;
+    }
+    if (pos.colonne > goal.colonne ) {
+        return OUEST;
+    }
+    if (pos.niveau < goal.niveau ) {
+        return HAUT;
+    }
+    if (pos.niveau > goal.niveau ) {
+        return BAS;
+    }
+    cerr << "Same positions !";
+    exit(EXIT_FAILURE);
 }

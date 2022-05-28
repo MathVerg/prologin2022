@@ -16,7 +16,7 @@ pos_vec getNeighbors(const position& pos);
 /**
  * Updates a position according to a direction
  */
-void updatePos(position &pos, direction dir);
+void updatePos(position* pos, direction dir);
 
 /**
  * Translates a path given as directions to a path given as positions
@@ -47,3 +47,13 @@ dir_path closePos(const position& ref, const pos_vec& list, uint dmax);
  * Tells wether there is a duck on this case or not
  */
 bool isDucked(const position& pos);
+
+/**
+ * manhattan distance between two same-level positions
+ */
+int manhattanDistance(const position& a, const position& b);
+
+/**
+ * Direction to take to get to a given case (assumed neighbor)
+ */
+direction findDir(const position& pos, const position& goal);

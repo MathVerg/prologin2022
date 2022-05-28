@@ -30,7 +30,7 @@ void Env::creuserTunnel(position pos) {
 void Env::init() {
     for (int i = 0; i < HAUTEUR; i++) {
         for (int j = 0; j < LARGEUR; j++) {
-            bagends[i][j] = false;
+            mBagends[i][j] = false;
         }
     }
     position pos;
@@ -45,21 +45,21 @@ void Env::init() {
             switch (state.contenu)
             {
             case PAPY:
-                papys.push_back(pos);
+                mPapys.push_back(pos);
                 break;
             case NID:
-                nests.push_back(pos);
+                mNests.push_back(pos);
                 break;
             case TROU:
-                holes.push_back(pos);
+                mHoles.push_back(pos);
                 break;
             default:
                 break;
             }
         }
     }
-    papys = filterBagend(papys);
-    nests = filterBagend(nests);
+    mPapys = filterBagend(mPapys);
+    mNests = filterBagend(mNests);
 }
 
 void Env::updateBagends(const position& pos) {
@@ -68,7 +68,7 @@ void Env::updateBagends(const position& pos) {
     }
     vector<position> ok_neighbors = filterBagend(getNeighbors(pos)); 
     if (!isCrossable(pos) || ok_neighbors.size() < 2 ) {
-        bagends[pos.ligne][pos.colonne] = true;
+        mBagends[pos.ligne][pos.colonne] = true;
         for (position vois : ok_neighbors) {
             updateBagends(vois);
         }
@@ -76,11 +76,11 @@ void Env::updateBagends(const position& pos) {
 }
 
 bool Env::isBagend(const position& pos) {
-    return bagends[pos.ligne][pos.colonne];
+    return mBagends[pos.ligne][pos.colonne];
 }
 
 bool Env::isNotBagend(const position& pos) {
-    return !bagends[pos.ligne][pos.colonne];
+    return !mBagends[pos.ligne][pos.colonne];
 }
 
 pos_vec Env::filterBagend(const pos_vec& sample) {
@@ -111,11 +111,11 @@ dir_path Env::findClosest(const position& pos, type_case& casetype) {
     switch (casetype)
     {
     case PAPY:
-        return closestPos(pos, papys);
+        return closestPos(pos, mPapys);
     case NID:
-        return closestPos(pos, nests);
+        return closestPos(pos, mNests);
     case TROU :
-        return closestPos(pos, holes);
+        return closestPos(pos, mHoles);
     default:
         cerr << "Not implemented case type ";
         afficher_type_case(casetype);
@@ -127,11 +127,11 @@ dir_path Env::findClosest(const position& pos, type_case& casetype) {
     switch (casetype)
     {
     case PAPY:
-        return closePos(pos, papys, dmax);
+        return closePos(pos, mPapys, dmax);
     case NID:
-        return closePos(pos, nests, dmax);
+        return closePos(pos, mNests, dmax);
     case TROU :
-        return closePos(pos, holes, dmax);
+        return closePos(pos, mHoles, dmax);
     default:
         cerr << "Not implemented case type : ";
         afficher_type_case(casetype);
@@ -154,5 +154,23 @@ dir_path Env::findClosest(const position& pos, type_case& casetype) {
  }
 
  pos_vec Env::moveOptions(const position& pos) {
-     return filterMovable(getNeighbors(pos));
+    return filterMovable(getNeighbors(pos));
+ }
+
+ bool Env::bagendOnPath(const pos_path& path) {
+    for (position pos : path) {
+        if (isBagend(pos)) {
+            return true;
+        }
+    }
+    return false;
+ }
+
+ bool Env::canStartPath(const pos_path& path, int start, int steps) {
+    for (int i = start; i < start + steps; i++) {
+        if (!isMovableTo(path[i])) {
+            return false;
+        }
+    }
+    return true;
  }

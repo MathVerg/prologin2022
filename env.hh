@@ -14,13 +14,13 @@ private:
     /**
      * A map of all the places where you don't want to go
      */
-    std::array<std::array<bool, LARGEUR>, HAUTEUR> bagends;
-    pos_vec papys;
-    pos_vec holes;
-    pos_vec nests;
+    std::array<std::array<bool, LARGEUR>, HAUTEUR> mBagends;
+    pos_vec mPapys;
+    pos_vec mHoles;
+    pos_vec mNests;
 public:
     Env(/* args */);
-    ~Env();
+    virtual ~Env();
 
     /**
      * Object-oriented versions of the API action
@@ -88,4 +88,14 @@ public:
      * gives all the position where you can move
      */
     pos_vec moveOptions(const position& pos);
+
+    /**
+     * Tells wether their is a bag end on the path
+     */
+    bool bagendOnPath(const pos_path& path);
+
+    /**
+     * Tells wether the first steps of the path are accessible
+     */
+    bool canStartPath(const pos_path& path, int start, int steps);
 };
