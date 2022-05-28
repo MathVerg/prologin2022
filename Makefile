@@ -4,6 +4,7 @@
 CHAMPION_FILES = champion.cc \
 				ducktroop.hh ducktroop.cc \
 				ducktroop-baker.hh ducktroop-baker.cc \
+				ducktroop-rusher.hh ducktroop-rusher.cc \
 				env.hh env.cc \
 				strategy.hh strategy.cc \
 				strategy-test.hh  strategy-test.cc \

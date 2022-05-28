@@ -1,12 +1,12 @@
 #pragma once
 #include "strategy.hh"
-#include "ducktroop-baker.hh"
+#include "ducktroop.hh"
 
 class StrategyTest : public Strategy
 {
 private:
-    DucktroopBaker *mBaker1;
-    DucktroopBaker *mBaker2;
+    Ducktroop *mTroop1;
+    Ducktroop *mTroop2;
 public:
     StrategyTest(Env* env);
     virtual ~StrategyTest();

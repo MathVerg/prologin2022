@@ -4,7 +4,15 @@
 class Strategy
 {
 protected:
+    /**
+     * game environment, propagated to the troops
+     */
     Env* mEnv;
+
+    /**
+     * strategy phase, for miscellaneous uses
+     */
+    int mPhase = 0;
 public:
     Strategy(Env* env);
     virtual ~Strategy();
