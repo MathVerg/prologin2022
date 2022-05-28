@@ -4,6 +4,7 @@
  */
 #include "api.hh"
 #include "env.hh"
+#include <string>
 
 #define MAX_IDLE_TURNS 3
 
@@ -13,6 +14,11 @@ typedef enum gen_state {
         SUICIDE //SUICIDE
     } gen_state;
 
+/**
+ * String representation of the state
+ */
+std::string reprGenState(gen_state state);
+
 class Ducktroop
 {
 private:
@@ -20,7 +26,7 @@ private:
     /**
      * The generic state
      */
-    gen_state mGenState;
+    gen_state mGenState = IDLE;
 protected:
     /**
      * The troupe id
@@ -51,6 +57,11 @@ protected:
      * when did it start to be idle
      */
     int mIdleTurn;
+
+    /**
+     * direction to which we are going in order to suicide
+     */
+    direction mSuicideDir;
 public:
     Ducktroop(int id, Env* env);
 

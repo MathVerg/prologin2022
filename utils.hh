@@ -5,17 +5,30 @@
 
 #include "api.hh"
 
-#define DEBUG 0
+#define DEBUG 1
 
 typedef std::vector<direction> dir_path;
 typedef std::vector<position> pos_path;
 typedef std::vector<direction> dir_vec;
 typedef std::vector<position> pos_vec;
 
+const std::vector<direction> ALL_DIRS = {NORD, SUD, EST, OUEST, HAUT, BAS};
+const std::vector<direction> PLANE_DIRS = {NORD, SUD, EST, OUEST};
+
 /**
  * Gives a list of the getNeighbors (account for map borders)
  */
 pos_vec getNeighbors(const position& pos);
+
+/**
+ * The directions that do not lead you to a wall
+ */
+dir_vec availableDirs(const position& pos);
+
+/**
+ * Can you go in this direction ? Or is there a wall ?
+ */
+bool isDirOk(const position& pos, direction dir);
 
 /**
  * Updates a position according to a direction
@@ -53,6 +66,11 @@ dir_path closePos(const position& ref, const pos_vec& list, uint dmax);
 bool isDucked(const position& pos);
 
 /**
+ * Wether you die or not when reaching this position
+ */
+bool posKills(const position& pos);
+
+/**
  * manhattan distance between two same-level positions
  */
 int manhattanDistance(const position& a, const position& b);
@@ -61,6 +79,16 @@ int manhattanDistance(const position& a, const position& b);
  * Direction to take to get to a given case (assumed neighbor)
  */
 direction findDir(const position& pos, const position& goal);
+
+/**
+ * picks a random number in interval [low:high]
+ */
+int pickNumber(int low, int high);
+
+/**
+ * picks a random direction from an array
+ */
+direction pickDir(const dir_vec& sample);
 
 /**
  * pick a position from an array
@@ -78,3 +106,8 @@ bool isNestAdversary(const position& pos);
  * get the ids of the troups of a given player
  */
 std::vector<int> getTroupesId(int joueur);
+
+/**
+ * get the position of all the mothers
+ */
+pos_vec getMotherPos();

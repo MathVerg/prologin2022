@@ -4,3 +4,5 @@
 champion.tgz
 config.yml
 .vscode
+*.log
+dump.json

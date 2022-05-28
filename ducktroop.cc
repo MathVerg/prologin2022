@@ -6,6 +6,20 @@
 
 using namespace std;
 
+string reprGenState(gen_state state) {
+    switch (state)
+    {
+    case IDLE:
+        return "IDLE";
+    case MOVING:
+        return "MOVING";
+    case SUICIDE:
+        return "SUICIDE";
+    default:
+        return "unknown state";
+    }
+}
+
 Ducktroop::Ducktroop(int id, Env* env)
 {
     mId = id;
@@ -17,7 +31,9 @@ Ducktroop::~Ducktroop()
 }
 
 void Ducktroop::avancerTroupe(direction dir) {
+    if (DEBUG) {cout << "I am definitely gonna walk to "; afficher_direction(dir);}
     erreur err = avancer(mId, dir);
+    if (DEBUG) cout << "I did it, RIP";
     if (err) {
         afficher_erreur(err);
     }
@@ -44,11 +60,20 @@ gen_state Ducktroop::getGenState() {
 }
 
 void Ducktroop::setGenState(gen_state state) {
+    if (DEBUG) cout << "Switching to state " << reprGenState(state) << endl;
     switch (state)
     {
     case IDLE:
         mIdleTurn = tour_actuel();
         mGenState = IDLE;
+        break;
+    case SUICIDE :
+        mSuicideDir = pickDir(PLANE_DIRS);
+        if (DEBUG) {
+            cout << "Chosen suicide dir : ";
+            afficher_direction(mSuicideDir);
+        }
+        mGenState = SUICIDE;
         break;
     default:
         mGenState = state;
@@ -63,6 +88,7 @@ void Ducktroop::setPath(const dir_path& path) {
 }
 
 void Ducktroop::genericPlay() {
+    if (DEBUG) cout << "Generic play, state is " << reprGenState(mGenState) << endl;
     if (!getActionPts()) {
         return;
     } 
@@ -72,6 +98,7 @@ void Ducktroop::genericPlay() {
         suicide();
         break;
     case IDLE:
+        if (DEBUG) {cout << "Idle since turn " << mIdleTurn << endl;}
         if (tour_actuel() - mIdleTurn > MAX_IDLE_TURNS) {
             setGenState(SUICIDE);
             genericPlay();
@@ -108,19 +135,16 @@ void Ducktroop::moveAlong() {
     int pts = getActionPts();
     int intendedSteps = min(pts, stepsLeft);
     position goal = mPosPath[mPosPath.size()];
-    if (!(mEnv->canStartPath(mPosPath, mPathIndex, intendedSteps)) || mEnv->bagendOnPath(mPosPath)) {
-        
-        dir_path newPath = trouver_chemin(currentPos, goal);
-        if (newPath.size()) {
-            setPath(newPath);
-            stepsLeft = mPath.size() - mPathIndex;
-            intendedSteps = min(pts, stepsLeft);
-        }
-        else {
-            setGenState(IDLE);
-            genericPlay();
-            return;
-        }
+    dir_path newPath = trouver_chemin(currentPos, goal);
+    if (newPath.size()) {
+        setPath(newPath);
+        stepsLeft = mPath.size() - mPathIndex;
+        intendedSteps = min(pts, stepsLeft);
+    }
+    else {
+        setGenState(IDLE);
+        genericPlay();
+        return;
     }
     followPath(intendedSteps);
     if (thisTroupe().maman == goal) {
@@ -131,19 +155,43 @@ void Ducktroop::moveAlong() {
 
 void Ducktroop::suicide() {
     position pos = thisTroupe().maman;
-    while (getActionPts() > 0 && info_case(pos).contenu == TROU) {
-        avancerTroupe(NORD);
-        updatePos(&pos, NORD);
-        if (!(mEnv->isMovableTo(pos))) {
+    if (!isDirOk(pos, mSuicideDir)) {
+        if (DEBUG) {cout << "Direction can't be taken : "; afficher_direction(mSuicideDir);}
+        mSuicideDir = pickDir(availableDirs(pos));
+        if (DEBUG) {cout << "Choosing instead : "; afficher_direction(mSuicideDir);}
+    }
+    if (DEBUG) cout << "Go for suicide" << endl;
+    while (getActionPts() > 0) {
+        updatePos(&pos, mSuicideDir);
+        //if (DEBUG) {cout << "Trying to suicide, moving to "; afficher_position(pos);}
+        bool killed = posKills(pos);
+        avancer(mId, mSuicideDir);
+        if (killed) {
             setGenState(IDLE);
             return;
         }
     }
+    /* keep this unde the hood for the case when the timeout bug is fixed
+    while (getActionPts() > 0 && info_case(pos).contenu == TROU) {
+        avancerTroupe(dir);
+        updatePos(&pos, dir);
+        if (!(mEnv->isMovableTo(pos))) {
+            setGenState(IDLE);
+            return;
+        }
+        if (DEBUG) cout << "Looping for suitable suicide location" << endl;
+    }
+    if (DEBUG) {
+        cout << "I can die here : " ;afficher_position(pos);}
     if (getActionPts() > 0) {
+        cout << "Let's f*cking do it !" << endl;
         avancerTroupe(BAS);
+        cout << "And resurrect to IDLE state" << endl;
         setGenState(IDLE);
+        cout << "Ah, I feel better now" << endl;
         return;
     }
+    */
 }
 
 void Ducktroop::exhaustActions() {

@@ -32,6 +32,38 @@ pos_vec getNeighbors(const position& pos) {
     return res;
 }
 
+dir_vec availableDirs(const position& pos) {
+    dir_vec res = {};
+    if (pos.ligne > 0) {
+        res.push_back(SUD);
+    }
+    if (pos.ligne < LARGEUR - 1) {
+        res.push_back(NORD);
+    }
+    if (pos.colonne > 0) {
+        res.push_back(OUEST);
+    }
+    if (pos.colonne < HAUTEUR - 1) {
+        res.push_back(EST);
+    }
+    return res;
+}
+
+bool isDirOk(const position& pos, direction dir) {
+    switch (dir) {
+        case NORD:
+            return pos.ligne < LARGEUR - 1;
+        case SUD:
+            return pos.ligne > 0;
+        case EST :
+            return pos.colonne < HAUTEUR - 1;
+        case OUEST :
+            return pos.colonne > 0;
+        default :
+            return false;
+    }
+}
+
 void updatePos(position* pos, direction dir) {
     switch (dir)
     {
@@ -107,8 +139,8 @@ pos_vec posFilter(std::function<bool(position)> f, const pos_vec& sample) {
 
 dir_path closestPos(const position& ref, const pos_vec& list) {
     if (list.size() == 0) {
-        cerr << "Position list is empty !" << endl;
-        exit(EXIT_FAILURE);
+        if (DEBUG) cout<< "No path found because list is empty" << endl;
+        return {};
     }
     dir_path best_path = {};
     for (position goal : list) {
@@ -146,6 +178,10 @@ bool isDucked(const position& pos) {
     return false;
 }
 
+bool posKills(const position& pos) {
+    return (!isCrossable(pos)) || isDucked(pos);
+}
+
 int manhattanDistance(const position& a, const position& b) {
     int x = abs(a.ligne - b.ligne);
     int y = abs(a.colonne - b.colonne);
@@ -175,15 +211,24 @@ direction findDir(const position& pos, const position& goal) {
     exit(EXIT_FAILURE);
 }
 
-position pickPos(const pos_vec& sample) {
+int pickNumber(int low, int high) {
     std::random_device r;
     // Choose a random mean between 1 and 6
     std::default_random_engine e1(r());
-    std::uniform_int_distribution<int> uniform_dist(0, sample.size());
+    std::uniform_int_distribution<int> uniform_dist(low, high);
     int idx = uniform_dist(e1);
+    return idx;
+}
+
+direction pickDir(const dir_vec& sample) {
+    int idx = pickNumber(0, sample.size() - 1 );
     return sample[idx];
 }
 
+position pickPos(const pos_vec& sample) {
+    int idx = pickNumber(0, sample.size() - 1 );
+    return sample[idx];
+}
 
 bool isNestMine(const position& pos) {
     return info_nid(pos) == moi();
@@ -203,4 +248,17 @@ vector<int> getTroupesId(int joueur) {
         ids.push_back(t.id);
     }
     return ids;
+}
+
+pos_vec getMotherPos() {
+    pos_vec res;
+    vector<troupe> troupes = troupes_joueur(moi());
+    for (troupe t : troupes) {
+        res.push_back(t.maman);
+    }
+    troupes = troupes_joueur(adversaire());
+    for (troupe t : troupes) {
+        res.push_back(t.maman);
+    }
+    return res;
 }

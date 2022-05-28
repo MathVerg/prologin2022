@@ -16,6 +16,8 @@ private:
      * A map of all the places where you don't want to go
      */
     std::array<std::array<bool, LARGEUR>, HAUTEUR> mBagends;
+    std::vector<position> mSpawnPoints;
+    int mBagendsCount;
     pos_vec mPapys;
     pos_vec mHoles;
     pos_vec mNests;
@@ -44,6 +46,11 @@ public:
     pos_vec getPapys();
     pos_vec getHoles();
     pos_vec getNests();
+
+    /**
+     * tells wether the given case is a spawn case
+     */
+    bool isSpawn(const position& pos);
 
     /**
      * Updates the bagends map around this position

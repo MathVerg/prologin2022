@@ -18,6 +18,6 @@ void StrategyTest::init() {
 }
 
 void StrategyTest::play() {
-    mBaker1->specificPlay();
-    mBaker2->specificPlay();
+    mBaker1->genericPlay();
+    mBaker2->genericPlay();
 }

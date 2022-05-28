@@ -28,10 +28,17 @@ void Env::creuserTunnel(position pos) {
 }
 
 void Env::init() {
+    mBagendsCount = 0;
+    mPapys = {};
+    mNests = {};
+    mHoles = {};
     for (int i = 0; i < HAUTEUR; i++) {
         for (int j = 0; j < LARGEUR; j++) {
             mBagends[i][j] = false;
         }
+    }
+    if (!mSpawnPoints.size()) {
+        mSpawnPoints = getMotherPos();
     }
     position pos;
     for (int i = 0; i < HAUTEUR; i++) {
@@ -59,6 +66,13 @@ void Env::init() {
         }
     }
     mPapys = filterBagend(mPapys);
+    if (DEBUG) {
+        cout << "Bagends : " << mBagendsCount << endl;
+        cout << "Papys : " << mPapys.size() << endl;
+        cout << "Nests : " << mNests.size() << endl;
+        cout << "Holes : " << mHoles.size() << endl;
+        cout << "Spawns : " << mSpawnPoints.size() << endl;
+    }
 }
 
 pos_vec Env::getHoles() {
@@ -73,13 +87,23 @@ pos_vec Env::getNests() {
     return mNests;
 }
 
+bool Env::isSpawn(const position& pos) {
+    for (position sp : mSpawnPoints) {
+        if (sp == pos) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Env::updateBagends(const position& pos) {
-    if (isBagend(pos)) {
+    if (isBagend(pos) || isSpawn(pos)) {
         return;
     }
     vector<position> ok_neighbors = filterBagend(getNeighbors(pos)); 
     if (!isCrossable(pos) || ok_neighbors.size() < 2 ) {
         mBagends[pos.ligne][pos.colonne] = true;
+        mBagendsCount++;
         for (position vois : ok_neighbors) {
             updateBagends(vois);
         }

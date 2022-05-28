@@ -14,7 +14,7 @@ class DucktroopBaker : public Ducktroop
 {
 private:
     int mGoalSize;
-    int mState;
+    int mState = LOADING;
 public:
     DucktroopBaker(int id, Env* env);
     DucktroopBaker(int id, Env* env, int goalSize);
