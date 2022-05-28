@@ -5,8 +5,8 @@
 class StrategyTest : public Strategy
 {
 private:
+    Ducktroop *mTroop0;
     Ducktroop *mTroop1;
-    Ducktroop *mTroop2;
 public:
     StrategyTest(Env* env);
     virtual ~StrategyTest();

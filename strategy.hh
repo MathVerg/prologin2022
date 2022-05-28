@@ -13,6 +13,11 @@ protected:
      * strategy phase, for miscellaneous uses
      */
     int mPhase = 0;
+
+    /**
+     * ids of my troops
+     */
+    std::vector<int> mIds;
 public:
     Strategy(Env* env);
     virtual ~Strategy();

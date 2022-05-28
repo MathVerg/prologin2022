@@ -10,7 +10,7 @@ Strategy::~Strategy()
 }
 
 void Strategy::init() {
-
+    mIds = getTroupesId(moi());
 }
 
 void Strategy::play() {
