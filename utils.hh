@@ -5,6 +5,8 @@
 
 #include "api.hh"
 
+#define DEBUG 0
+
 typedef std::vector<direction> dir_path;
 typedef std::vector<position> pos_path;
 typedef std::vector<direction> dir_vec;

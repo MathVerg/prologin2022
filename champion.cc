@@ -1,5 +1,6 @@
 #include <vector>
 #include <array>
+#include <iostream>
 
 #include "api.hh"
 #include "utils.hh"
@@ -15,12 +16,15 @@ StrategyTest strat(&env);
 void partie_init()
 {
     env.init();
+    if (DEBUG) cout << "Environment initialized" << endl;
     strat.init();
+    if (DEBUG) cout << "Strategy initialized" << endl;
 }
 
 /// Fonction appelée à chaque tour.
 void jouer_tour()
-{
+{   
+    if (DEBUG) cout << "Turn " << tour_actuel() << endl;
     if (tour_actuel() == ROUND_FERMETURE + 1) {
         env.init();
     } else {
