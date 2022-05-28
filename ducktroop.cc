@@ -173,7 +173,7 @@ void Ducktroop::suicide() {
             return;
         }
     }
-    /* keep this unde the hood for the case when the timeout bug is fixed
+    /* keep this under the hood for the case when the timeout bug is fixed
     while (getActionPts() > 0 && info_case(pos).contenu == TROU) {
         avancerTroupe(dir);
         updatePos(&pos, dir);
@@ -183,14 +183,10 @@ void Ducktroop::suicide() {
         }
         if (DEBUG) cout << "Looping for suitable suicide location" << endl;
     }
-    if (DEBUG) {
-        cout << "I can die here : " ;afficher_position(pos);}
+    if (DEBUG) { cout << "I can die down here : " ;afficher_position(pos);}
     if (getActionPts() > 0) {
-        cout << "Let's f*cking do it !" << endl;
         avancerTroupe(BAS);
-        cout << "And resurrect to IDLE state" << endl;
         setGenState(IDLE);
-        cout << "Ah, I feel better now" << endl;
         return;
     }
     */
@@ -200,7 +196,7 @@ void Ducktroop::exhaustActions() {
     position pos = thisTroupe().maman;
     for (int i = 0; i < getActionPts(); i++) {
         pos_vec options = mEnv->moveOptions(pos);
-        if (options.size() > 0) {
+        if (options.size() == 0) {
             setGenState(SUICIDE);
             genericPlay();
             return;
