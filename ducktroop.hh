@@ -151,4 +151,9 @@ public:
      * inventaire
      */
     int getInventory();
+
+    /**
+     * Action to do once the goal is reached, must be overriden
+     */
+    virtual void goalReachedAction();
 };

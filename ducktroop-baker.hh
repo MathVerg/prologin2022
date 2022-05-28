@@ -19,8 +19,20 @@ std::string reprBakerState(baker_state state);
 class DucktroopBaker : public Ducktroop
 {
 private:
+    /**
+     * the size you want to reach
+     */
     int mGoalSize = TAILLE_DEPART;
+
+    /**
+     * state in the state machine
+     */
     baker_state mState = LOADING;
+
+    /**
+     * whether the barriershift has been taken into account
+     */
+    bool mDidBarrierShift = false;
 public:
     DucktroopBaker(int id, Env* env);
     DucktroopBaker(int id, Env* env, int goalSize);
@@ -37,4 +49,8 @@ public:
      */
     void specificPlay() override;
 
+    /**
+     * action to do once the goal is reached
+     */
+    void goalReachedAction() override;
 };

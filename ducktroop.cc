@@ -160,7 +160,7 @@ void Ducktroop::moveAlong() {
     }
     followPath(intendedSteps);
     if (thisTroupe().maman == goal) {
-        if (DEBUG) cout << "Goal reached !" << endl;
+        goalReachedAction();
         setGenState(IDLE);
     }
     genericPlay();
@@ -235,4 +235,8 @@ int Ducktroop::getSize() {
 
 int Ducktroop::getInventory() {
     return thisTroupe().inventaire;
+}
+
+void Ducktroop::goalReachedAction() {
+    if (DEBUG) cout << "Goal reached !" << endl;
 }

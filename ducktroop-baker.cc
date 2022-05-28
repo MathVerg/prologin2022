@@ -43,13 +43,6 @@ void DucktroopBaker::specificPlay() {
         grandirTroupe();
     }
     if (getGenState() == IDLE) {
-        if (DEBUG) cout << "Inventory " << getInventory() << " and size " << getSize() << endl;
-        if (mState == LOADING && getInventory() == getSize()/3) {
-            mState = FULL;
-        }
-        else if (mState == FULL && getInventory() == 0) {
-            mState = LOADING;
-        }
         position pos = thisTroupe().maman;
         dir_path goal;
         switch (mState)
@@ -83,4 +76,22 @@ void DucktroopBaker::specificPlay() {
         }
     }
     genericPlay();
+}
+
+void DucktroopBaker::goalReachedAction() {
+    if (DEBUG) cout << "Inventory " << getInventory() << " and size " << getSize() << endl;
+    switch (mState)
+    {
+    case FULL:
+        if (getInventory() == 0) mState = LOADING;
+        break;
+    case LOADING:
+        if (getInventory() == getSize()/3) {
+            mState = FULL;
+        }
+        else if (tour_actuel() > ROUND_FERMETURE && !mDidBarrierShift) {
+            mDidBarrierShift = true;
+            mState = FULL;
+        }
+    }
 }
