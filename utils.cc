@@ -146,7 +146,7 @@ dir_path closestPos(const position& ref, const pos_vec& list) {
     for (position goal : list) {
         dir_path path = trouver_chemin(ref, goal);
         if (path.size() > 0 ) {
-            if (DEBUG) cout<< "Found a path !" << endl;
+            //if (DEBUG) cout<< "Found a path !" << endl;
             if ((!best_path.size()) || best_path.size() > path.size()) {
                 best_path = path;
             }

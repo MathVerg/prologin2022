@@ -73,6 +73,7 @@ void DucktroopBaker::specificPlay() {
         }
         if (goal.size()) {
             if (DEBUG) cout << "Found a goal, moving there" << endl;
+            setPath(goal);
             setGenState(MOVING);
         }
         else {

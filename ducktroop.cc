@@ -31,9 +31,7 @@ Ducktroop::~Ducktroop()
 }
 
 void Ducktroop::avancerTroupe(direction dir) {
-    if (DEBUG) {cout << "I am definitely gonna walk to "; afficher_direction(dir);}
     erreur err = avancer(mId, dir);
-    if (DEBUG) cout << "I did it, RIP";
     if (err) {
         afficher_erreur(err);
     }
@@ -89,7 +87,7 @@ void Ducktroop::setPath(const dir_path& path) {
 }
 
 void Ducktroop::genericPlay() {
-    if (DEBUG) cout << "Generic play, state is " << reprGenState(mGenState) << endl;
+    //if (DEBUG) cout << "Generic play, state is " << reprGenState(mGenState) << endl;
     if (!getActionPts()) {
         return;
     } 
@@ -135,7 +133,7 @@ void Ducktroop::moveAlong() {
     int stepsLeft = mPath.size() - mPathIndex;
     int pts = getActionPts();
     int intendedSteps = min(pts, stepsLeft);
-    position goal = mPosPath[mPosPath.size()];
+    position goal = mPosPath[mPosPath.size() - 1];
     dir_path newPath = trouver_chemin(currentPos, goal);
     if (newPath.size()) {
         setPath(newPath);

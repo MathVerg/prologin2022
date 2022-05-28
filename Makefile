@@ -19,4 +19,4 @@ fight:
 	stechec2-run config.yml
 
 debug:
-	stechec2-run -d 0 config.yml
+	stechec2-run -d 1 config.yml
