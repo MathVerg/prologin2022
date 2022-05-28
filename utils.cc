@@ -183,3 +183,15 @@ position pickPos(const pos_vec& sample) {
     int idx = uniform_dist(e1);
     return sample[idx];
 }
+
+
+bool isNestMine(const position& pos) {
+    return info_nid(pos) == moi();
+}
+
+bool isNestFree(const position& pos) {
+    return info_nid(pos) == LIBRE;
+}
+bool isNestAdversary(const position& pos) {
+    return info_nid(pos) == adversaire();
+}

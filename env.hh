@@ -38,6 +38,13 @@ public:
     void init();
 
     /**
+     * accessors
+     */
+    pos_vec getPapys();
+    pos_vec getHoles();
+    pos_vec getNests();
+
+    /**
      * Updates the bagends map around this position
      */
     void updateBagends(const position& pos);
@@ -66,13 +73,23 @@ public:
      * Find the closest case of a given type
      * @return the path to this case, empty if none is found
      */
-    dir_path findClosest(const position& pos, type_case& casetype);
+    dir_path findClosest(const position& pos, type_case casetype);
 
     /**
      * Find a case of a given type at distance lower than dmax
      * @return the path to this case, empty if none is found
      */
-    dir_path findClose(const position& pos, type_case& casetype, uint dmax);
+    dir_path findClose(const position& pos, type_case casetype, uint dmax);
+
+    /**
+     * Finds the bread that is the closest from the reference
+     */
+    dir_path findClosestBread(const position& ref);
+
+    /**
+     * Finds a bread that is at a distance less than dmax from the reference
+     */
+    dir_path findCloseBread(const position& ref, uint dmax);
 
     /**
      * Tells wether you could move to this case or not

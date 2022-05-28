@@ -59,7 +59,18 @@ void Env::init() {
         }
     }
     mPapys = filterBagend(mPapys);
-    mNests = filterBagend(mNests);
+}
+
+pos_vec Env::getHoles() {
+    return mHoles;
+}
+
+pos_vec Env::getPapys() {
+    return mPapys;
+}
+
+pos_vec Env::getNests() {
+    return mNests;
 }
 
 void Env::updateBagends(const position& pos) {
@@ -100,6 +111,7 @@ void Env::updateFromOpponent() {
         {
         case ACTION_CONSTRUIRE:
             updateBagends(act.action_pos);
+            mPapys = filterBagend(mPapys);
             break;
         default:
             break;
@@ -107,7 +119,7 @@ void Env::updateFromOpponent() {
     }
 }
 
-dir_path Env::findClosest(const position& pos, type_case& casetype) {
+dir_path Env::findClosest(const position& pos, type_case casetype) {
     switch (casetype)
     {
     case PAPY:
@@ -123,7 +135,7 @@ dir_path Env::findClosest(const position& pos, type_case& casetype) {
     }
  }
 
- dir_path Env::findClose(const position& pos, type_case& casetype, uint dmax) {
+ dir_path Env::findClose(const position& pos, type_case casetype, uint dmax) {
     switch (casetype)
     {
     case PAPY:
@@ -138,6 +150,14 @@ dir_path Env::findClosest(const position& pos, type_case& casetype) {
         exit(EXIT_FAILURE);
     }
  }
+
+ dir_path Env::findClosestBread(const position& ref) {
+    return closestPos(ref, filterBagend(pains()));
+}
+
+dir_path Env::findCloseBread(const position& ref, uint dmax) {
+    return closePos(ref, filterBagend(pains()), dmax);
+}
 
  bool Env::isMovableTo(const position& pos) {
     return !(isBagend(pos) || isDucked(pos));

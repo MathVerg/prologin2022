@@ -40,7 +40,7 @@ pos_vec posFilter(std::function<bool(position)> f, const pos_vec& sample);
 dir_path closestPos(const position& ref, const pos_vec& list);
 
 /**
- * Finds a position in the vector that at a distance less than dmax from the reference
+ * Finds a position in the vector that is at a distance less than dmax from the reference
  */
 dir_path closePos(const position& ref, const pos_vec& list, uint dmax);
 
@@ -63,3 +63,10 @@ direction findDir(const position& pos, const position& goal);
  * pick a position from an array
  */
 position pickPos(const pos_vec& sample);
+
+/**
+ * query nest state
+ */
+bool isNestMine(const position& pos);
+bool isNestFree(const position& pos);
+bool isNestAdversary(const position& pos);

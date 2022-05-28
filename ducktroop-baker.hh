@@ -4,17 +4,30 @@
 
 #include "ducktroop.hh"
 
-class DucktroopBaker : Ducktroop
+typedef enum baker_state {
+        LOADING, //not full of bread, looking for bread
+        FULL, //full of bread
+    } baker_state;
+
+class DucktroopBaker : public Ducktroop
 {
 private:
-    /* data */
+    int mGoalSize;
+    int mState;
 public:
-    DucktroopBaker(/* args */);
-    ~DucktroopBaker();
+    DucktroopBaker(Env* env);
+    DucktroopBaker(Env* env, int goalSize);
+    virtual ~DucktroopBaker();
 
     /**
-     * have the ducktroop play as a single player
+     * accessors for goal size
      */
-    void play();
-};
+    int getGoalSize();
+    void setGoalSize(int s);
 
+    /**
+     * override the parent class specific
+     */
+    void specificPlay() override;
+
+};

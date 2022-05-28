@@ -38,8 +38,21 @@ troupe Ducktroop::thisTroupe() {
     }
 }
 
-gen_state Ducktroop::getState() {
+gen_state Ducktroop::getGenState() {
     return mGenState;
+}
+
+void Ducktroop::setGenState(gen_state state) {
+    switch (state)
+    {
+    case IDLE:
+        mIdleTurn = tour_actuel();
+        mGenState = IDLE;
+        break;
+    default:
+        mGenState = state;
+        break;
+    }
 }
 
 void Ducktroop::setPath(const dir_path& path) {
@@ -49,19 +62,22 @@ void Ducktroop::setPath(const dir_path& path) {
 }
 
 void Ducktroop::genericPlay() {
-    if (!actionPts()) {
+    if (!getActionPts()) {
         return;
     } 
     switch (mGenState)
     {
-    case SPECIFIC:
-        specificPlay();
-        break;
     case SUICIDE:
         suicide();
         break;
     case IDLE:
-        exhaustActions();
+        if (tour_actuel() - mIdleTurn > MAX_IDLE_TURNS) {
+            setGenState(SUICIDE);
+            genericPlay();
+        }
+        else {
+            specificPlay();
+        }
         break;
     case MOVING:
         moveAlong();
@@ -70,11 +86,7 @@ void Ducktroop::genericPlay() {
 }
 
 void Ducktroop::specificPlay() {
-    cerr << "No specific behavior" << endl;
-}
-
-void Ducktroop::getNewGoal() {
-    mGenState = IDLE;
+    exhaustActions();
 }
 
 void Ducktroop::followPath(int steps) {
@@ -87,12 +99,12 @@ void Ducktroop::followPath(int steps) {
 void Ducktroop::moveAlong() {
     position currentPos = thisTroupe().maman;
     if (mEnv->isBagend(currentPos)) {
-        mGenState = SUICIDE;
+        setGenState(SUICIDE);
         genericPlay();
         return;
     }
     int stepsLeft = mPath.size() - mPathIndex;
-    int pts = actionPts();
+    int pts = getActionPts();
     int intendedSteps = min(pts, stepsLeft);
     position goal = mPosPath[mPosPath.size()];
     if (!(mEnv->canStartPath(mPosPath, mPathIndex, intendedSteps)) || mEnv->bagendOnPath(mPosPath)) {
@@ -104,39 +116,41 @@ void Ducktroop::moveAlong() {
             intendedSteps = min(pts, stepsLeft);
         }
         else {
-            mGenState = IDLE;
+            setGenState(IDLE);
             genericPlay();
             return;
         }
     }
     followPath(intendedSteps);
-    getNewGoal();
+    if (thisTroupe().maman == goal) {
+        setGenState(IDLE);
+    }
     genericPlay();
 }
 
 void Ducktroop::suicide() {
     position pos = thisTroupe().maman;
-    while (actionPts() > 0 && info_case(pos).contenu == TROU) {
+    while (getActionPts() > 0 && info_case(pos).contenu == TROU) {
         avancerTroupe(NORD);
         updatePos(&pos, NORD);
         if (!(mEnv->isMovableTo(pos))) {
-            mGenState = IDLE;
+            setGenState(IDLE);
             return;
         }
     }
-    if (actionPts() > 0) {
+    if (getActionPts() > 0) {
         avancerTroupe(BAS);
-        mGenState = IDLE;
+        setGenState(IDLE);
         return;
     }
 }
 
 void Ducktroop::exhaustActions() {
     position pos = thisTroupe().maman;
-    for (int i = 0; i < actionPts(); i++) {
+    for (int i = 0; i < getActionPts(); i++) {
         pos_vec options = mEnv->moveOptions(pos);
         if (options.size() > 0) {
-            mGenState = SUICIDE;
+            setGenState(SUICIDE);
             genericPlay();
             return;
         }
@@ -150,6 +164,14 @@ void Ducktroop::beginTurn() {
     
 }
 
-int Ducktroop::actionPts() {
+int Ducktroop::getActionPts() {
     return thisTroupe().pts_action;
+}
+
+int Ducktroop::getSize() {
+    return thisTroupe().taille;
+}
+
+int Ducktroop::getInventory() {
+    return thisTroupe().inventaire;
 }

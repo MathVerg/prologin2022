@@ -4,16 +4,22 @@
 #include "api.hh"
 #include "env.hh"
 
+#define MAX_IDLE_TURNS 3
+
 typedef enum gen_state {
-        SPECIFIC, //handle control to the specific state from the inherited Ducktroop
-        MOVING, //on the way to a given point
         IDLE, //nothing to do
+        MOVING, //on the way to a given point
         SUICIDE //SUICIDE
     } gen_state;
 
 class Ducktroop
 {
 private:
+
+    /**
+     * The generic state
+     */
+    gen_state mGenState;
 protected:
     /**
      * The troupe id
@@ -24,11 +30,6 @@ protected:
      * The global environment
      */
     Env* mEnv;
-
-    /**
-     * The generic state
-     */
-    gen_state mGenState;
 
     /**
      * The path to be followed
@@ -44,6 +45,11 @@ protected:
      * the position in the path
      */
     int mPathIndex;
+
+    /**
+     * when did it start to be idle
+     */
+    int mIdleTurn;
 public:
     Ducktroop(Env* env);
 
@@ -64,9 +70,10 @@ public:
     troupe thisTroupe();
 
     /**
-     * Accessor for the generic state
+     * Accessors for the generic state
      */
-    gen_state getState();
+    gen_state getGenState();
+    void setGenState(gen_state state);
 
     /**
      * set a goal to achieve
@@ -82,12 +89,6 @@ public:
      * plays according to the specific state
      */
     virtual void specificPlay();
-
-    /**
-     * get a new goal once the original is reached
-     * quite likely to be overriden
-     */
-    void getNewGoal();
 
     /**
      * Follow the path for a given number of steps
@@ -117,5 +118,15 @@ public:
     /**
      * how many actions are left for this turn
      */
-    int actionPts();
+    int getActionPts();
+
+    /**
+     * Size of the troupe
+     */
+    int getSize();
+
+    /**
+     * inventaire
+     */
+    int getInventory();
 };
