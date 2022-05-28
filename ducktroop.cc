@@ -31,7 +31,10 @@ Ducktroop::~Ducktroop()
 }
 
 void Ducktroop::avancerTroupe(direction dir) {
+    //if (DEBUG) {cout << "Moving " << mId << " toward "; afficher_direction(dir);}
+    //if (DEBUG) {cout << "Position before : "; afficher_position(thisTroupe().maman);}
     erreur err = avancer(mId, dir);
+    //if (DEBUG) {cout << "Position after : "; afficher_position(thisTroupe().maman);}
     if (err) {
         afficher_erreur(err);
     }
@@ -145,8 +148,15 @@ void Ducktroop::moveAlong() {
         genericPlay();
         return;
     }
+    if (intendedSteps == stepsLeft && posKills(goal)) {
+        setGenState(IDLE);
+        exhaustActions();
+        genericPlay();
+        return;
+    }
     followPath(intendedSteps);
     if (thisTroupe().maman == goal) {
+        if (DEBUG) cout << "Goal reached !" << endl;
         setGenState(IDLE);
     }
     genericPlay();
@@ -200,8 +210,10 @@ void Ducktroop::exhaustActions() {
             return;
         }
         position goal = pickPos(options);
+        //if (DEBUG) {cout << "Chosen target : "; afficher_position(goal);}
         direction dir = findDir(pos, goal);
         avancerTroupe(dir);
+        updatePos(&pos, dir);
     }
 }
 

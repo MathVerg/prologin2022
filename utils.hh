@@ -64,6 +64,7 @@ dir_path closePos(const position& ref, const pos_vec& list, uint dmax);
  * Tells wether there is a duck on this case or not
  */
 bool isDucked(const position& pos);
+bool isNotDucked(const position& pos);
 
 /**
  * Wether you die or not when reaching this position

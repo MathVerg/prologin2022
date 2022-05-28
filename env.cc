@@ -198,7 +198,7 @@ dir_path Env::findCloseBread(const position& ref, uint dmax) {
  }
 
  pos_vec Env::moveOptions(const position& pos) {
-    return filterMovable(getNeighbors(pos));
+    return posFilter(isNotDucked, filterMovable(getNeighbors(pos)));
  }
 
  bool Env::bagendOnPath(const pos_path& path) {

@@ -29,6 +29,15 @@ pos_vec getNeighbors(const position& pos) {
         res.push_back(vois);
         vois.ligne -=1;
     }
+    /*
+    if (DEBUG) {
+        cout << "Neighbors of ";
+        afficher_position(pos);
+        for (position p : res) {
+            afficher_position(p);
+        } 
+    }
+    */
     return res;
 }
 
@@ -179,6 +188,12 @@ bool isDucked(const position& pos) {
     return false;
 }
 
+bool isNotDucked(const position& pos) {
+    //if (DEBUG && isDucked(pos)) {cout << "Position ducked : "; afficher_position(pos);}
+    //if (DEBUG && !isDucked(pos)) {cout << "Position not ducked : "; afficher_position(pos);}
+    return !isDucked(pos);
+}
+
 bool posKills(const position& pos) {
     return (!isCrossable(pos)) || isDucked(pos);
 }
@@ -215,9 +230,8 @@ direction findDir(const position& pos, const position& goal) {
 int pickNumber(int low, int high) {
     std::random_device r;
     // Choose a random mean between 1 and 6
-    std::default_random_engine e1(r());
     std::uniform_int_distribution<int> uniform_dist(low, high);
-    int idx = uniform_dist(e1);
+    int idx = uniform_dist(r);
     return idx;
 }
 

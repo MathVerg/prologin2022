@@ -77,8 +77,9 @@ void DucktroopBaker::specificPlay() {
             setGenState(MOVING);
         }
         else {
-            if (DEBUG) cout << "No goal found, exhausting" << endl;
+            if (DEBUG) cout << "No goal found, going IDLE" << endl;
             exhaustActions();
+            setGenState(IDLE);
         }
     }
     genericPlay();

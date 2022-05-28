@@ -24,7 +24,7 @@ void partie_init()
 /// Fonction appelée à chaque tour.
 void jouer_tour()
 {   
-    if (DEBUG) cout << "Turn " << tour_actuel() << endl;
+    if (DEBUG) cout << "----" << endl << "Turn " << 2*tour_actuel() << endl << "****" << endl;
     if (tour_actuel() == ROUND_FERMETURE + 1) {
         env.init();
     } else {
