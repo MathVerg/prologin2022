@@ -56,12 +56,17 @@ protected:
     /**
      * when did it start to be idle
      */
-    int mIdleTurn;
+    int mIdleTurn = 0;
 
     /**
      * direction to which we are going in order to suicide
      */
     direction mSuicideDir;
+
+    /**
+     * actual size, including duck that have not spawned yet
+     */
+    int mActualSize = TAILLE_DEPART;
 public:
     Ducktroop(int id, Env* env);
 

@@ -41,6 +41,7 @@ void Ducktroop::avancerTroupe(direction dir) {
 
 void Ducktroop::grandirTroupe() {
     erreur err = grandir(mId);
+    mActualSize++;
     if (err) {
         afficher_erreur(err);
     }
@@ -167,6 +168,7 @@ void Ducktroop::suicide() {
         bool killed = posKills(pos);
         avancer(mId, mSuicideDir);
         if (killed) {
+            mActualSize = TAILLE_DEPART;
             setGenState(IDLE);
             return;
         }
@@ -218,7 +220,7 @@ int Ducktroop::getActionPts() {
 }
 
 int Ducktroop::getSize() {
-    return thisTroupe().taille;
+    return mActualSize;
 }
 
 int Ducktroop::getInventory() {

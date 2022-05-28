@@ -3,9 +3,20 @@
 
 using namespace std;
 
+string reprBakerState(baker_state state) {
+    switch (state)
+    {
+    case LOADING:
+        return "LOADING";
+    case FULL :
+        return "FULL";
+    default:
+        return "unknown state";
+    }
+}
+
 DucktroopBaker::DucktroopBaker(int id, Env* env) : Ducktroop(id, env)
 {
-    mGoalSize = TAILLE_DEPART;
 }
 
 DucktroopBaker::DucktroopBaker(int id, Env* env, int goalSize) : Ducktroop(id, env)
@@ -26,10 +37,13 @@ void DucktroopBaker::setGoalSize(int s){
 }
 
 void DucktroopBaker::specificPlay() {
+    if (DEBUG) cout << "Baker state is " << reprBakerState(mState) << endl;
     if (getSize() < mGoalSize) {
+        if (DEBUG) cout << "To small, go bigger" << endl;
         grandirTroupe();
     }
     if (getGenState() == IDLE) {
+        if (DEBUG) cout << "Inventory " << getInventory() << " and size " << getSize() << endl;
         if (mState == LOADING && getInventory() == getSize()/3) {
             mState = FULL;
         }
@@ -40,21 +54,21 @@ void DucktroopBaker::specificPlay() {
         dir_path goal;
         switch (mState)
         {
-        case LOADING:
-            if (DEBUG) cout << "Searching for bread" << endl;
-            goal = mEnv->findClosestBread(pos);
-            if (!goal.size()) {
-                if (DEBUG) cout << "No bread found, searching for papy" << endl;
-                goal = mEnv->findClosest(pos, PAPY);
-            }
-            break;
-        case FULL:
-            if (DEBUG) cout << "Searching for a nest of mine" << endl;
-            goal = closestPos(pos, posFilter(isNestMine, mEnv->getNests()));
-            if (!goal.size()) {
-                if (DEBUG) cout << "No nest found, searching for free nest" << endl;
-                goal = closestPos(pos, posFilter(isNestFree, mEnv->getNests()));
-            }
+            case LOADING:
+                if (DEBUG) cout << "Searching for bread" << endl;
+                goal = mEnv->findClosestBread(pos);
+                if (!goal.size()) {
+                    if (DEBUG) cout << "No bread found, searching for papy" << endl;
+                    goal = mEnv->findClosest(pos, PAPY);
+                }
+                break;
+            case FULL:
+                if (DEBUG) cout << "Searching for a nest of mine" << endl;
+                goal = closestPos(pos, posFilter(isNestMine, mEnv->getNests()));
+                if (!goal.size()) {
+                    if (DEBUG) cout << "No nest found, searching for free nest" << endl;
+                    goal = closestPos(pos, posFilter(isNestFree, mEnv->getNests()));
+                }
             break;
         }
         if (goal.size()) {
