@@ -9,12 +9,13 @@
 using namespace std;
 
 Env env;
-StrategyTest strat;
+StrategyTest strat(&env);
 
 /// Fonction appelée au début de la partie.
 void partie_init()
 {
     env.init();
+    strat.init();
 }
 
 /// Fonction appelée à chaque tour.

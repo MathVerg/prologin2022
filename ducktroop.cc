@@ -6,8 +6,9 @@
 
 using namespace std;
 
-Ducktroop::Ducktroop(Env* env)
+Ducktroop::Ducktroop(int id, Env* env)
 {
+    mId = id;
     mEnv = env;
 }
 

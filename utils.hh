@@ -1,3 +1,4 @@
+#pragma once
 #include <array>
 #include <vector>
 #include <functional>
@@ -70,3 +71,8 @@ position pickPos(const pos_vec& sample);
 bool isNestMine(const position& pos);
 bool isNestFree(const position& pos);
 bool isNestAdversary(const position& pos);
+
+/**
+ * get the ids of the troups of a given player
+ */
+std::vector<int> getTroupesId(int joueur);

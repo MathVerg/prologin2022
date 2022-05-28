@@ -1,7 +1,8 @@
 #include "strategy.hh"
 
-Strategy::Strategy(/* args */)
+Strategy::Strategy(Env* env)
 {
+    mEnv = env;
 }
 
 Strategy::~Strategy()

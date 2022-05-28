@@ -1,11 +1,16 @@
+#pragma once
 #include "strategy.hh"
+#include "ducktroop-baker.hh"
 
-class StrategyTest : Strategy
+class StrategyTest : public Strategy
 {
 private:
-    /* data */
+    DucktroopBaker *mBaker1;
+    DucktroopBaker *mBaker2;
 public:
-    StrategyTest(/* args */);
-    ~StrategyTest();
-    void play();
+    StrategyTest(Env* env);
+    virtual ~StrategyTest();
+
+    void init() override;
+    void play() override;
 };

@@ -1,3 +1,4 @@
+#pragma once
 /**
  * Represents a ducktroop, can be used as it or herited from
  */
@@ -51,7 +52,7 @@ protected:
      */
     int mIdleTurn;
 public:
-    Ducktroop(Env* env);
+    Ducktroop(int id, Env* env);
 
     virtual ~Ducktroop();
     /**

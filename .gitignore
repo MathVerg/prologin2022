@@ -3,3 +3,4 @@
 *.o
 champion.tgz
 config.yml
+.vscode

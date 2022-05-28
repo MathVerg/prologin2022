@@ -195,3 +195,12 @@ bool isNestFree(const position& pos) {
 bool isNestAdversary(const position& pos) {
     return info_nid(pos) == adversaire();
 }
+
+vector<int> getTroupesId(int joueur) {
+    vector<troupe> troupes = troupes_joueur(joueur);
+    vector<int> ids = {};
+    for (troupe t : troupes) {
+        ids.push_back(t.id);
+    }
+    return ids;
+}

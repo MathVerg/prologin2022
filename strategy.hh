@@ -1,12 +1,18 @@
-
+#pragma once
+#include "env.hh"
 
 class Strategy
 {
-private:
-    /* data */
+protected:
+    Env* mEnv;
 public:
-    Strategy(/* args */);
-    ~Strategy();
+    Strategy(Env* env);
+    virtual ~Strategy();
+
+    /**
+     * initializes on a given env
+     */
+    virtual void init();
 
     /**
      * override with the actual strategy

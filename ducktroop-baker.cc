@@ -1,11 +1,11 @@
 #include "ducktroop-baker.hh"
 
-DucktroopBaker::DucktroopBaker(Env* env) : Ducktroop(env)
+DucktroopBaker::DucktroopBaker(int id, Env* env) : Ducktroop(id, env)
 {
     mGoalSize = TAILLE_DEPART;
 }
 
-DucktroopBaker::DucktroopBaker(Env* env, int goalSize) : Ducktroop(env)
+DucktroopBaker::DucktroopBaker(int id, Env* env, int goalSize) : Ducktroop(id, env)
 {
     mGoalSize = goalSize;
 }

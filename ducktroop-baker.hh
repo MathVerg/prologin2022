@@ -1,3 +1,4 @@
+#pragma once
 /**
  * A ducktroop that merely seeks for bread then bring it back
  */
@@ -15,8 +16,8 @@ private:
     int mGoalSize;
     int mState;
 public:
-    DucktroopBaker(Env* env);
-    DucktroopBaker(Env* env, int goalSize);
+    DucktroopBaker(int id, Env* env);
+    DucktroopBaker(int id, Env* env, int goalSize);
     virtual ~DucktroopBaker();
 
     /**
