@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <random>
 
 #include "utils.hh"
 
@@ -145,9 +147,9 @@ bool isDucked(position& pos) {
 }
 
 int manhattanDistance(const position& a, const position& b) {
-    int x = (a.ligne - b.ligne);
-    int y = (a.colonne - b.colonne);
-    return x*x + y*y;
+    int x = abs(a.ligne - b.ligne);
+    int y = abs(a.colonne - b.colonne);
+    return x + y;
 }
 
 direction findDir(const position& pos, const position& goal) {
@@ -171,4 +173,13 @@ direction findDir(const position& pos, const position& goal) {
     }
     cerr << "Same positions !";
     exit(EXIT_FAILURE);
+}
+
+position pickPos(const pos_vec& sample) {
+    std::random_device r;
+    // Choose a random mean between 1 and 6
+    std::default_random_engine e1(r());
+    std::uniform_int_distribution<int> uniform_dist(0, sample.size());
+    int idx = uniform_dist(e1);
+    return sample[idx];
 }

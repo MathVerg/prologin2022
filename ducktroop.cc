@@ -140,7 +140,7 @@ void Ducktroop::exhaustActions() {
             genericPlay();
             return;
         }
-        position goal = options[0]; //TODO : pick randomly
+        position goal = pickPos(options);
         direction dir = findDir(pos, goal);
         avancerTroupe(dir);
     }

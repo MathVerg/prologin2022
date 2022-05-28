@@ -6,6 +6,7 @@
 
 typedef std::vector<direction> dir_path;
 typedef std::vector<position> pos_path;
+typedef std::vector<direction> dir_vec;
 typedef std::vector<position> pos_vec;
 
 /**
@@ -57,3 +58,8 @@ int manhattanDistance(const position& a, const position& b);
  * Direction to take to get to a given case (assumed neighbor)
  */
 direction findDir(const position& pos, const position& goal);
+
+/**
+ * pick a position from an array
+ */
+position pickPos(const pos_vec& sample);
