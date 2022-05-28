@@ -39,7 +39,7 @@ void DucktroopBaker::setGoalSize(int s){
 void DucktroopBaker::specificPlay() {
     if (DEBUG) cout << "Baker state is " << reprBakerState(mState) << endl;
     if (getSize() < mGoalSize) {
-        if (DEBUG) cout << "To small, go bigger" << endl;
+        if (DEBUG) cout << "To small, try to go bigger" << endl;
         grandirTroupe();
     }
     if (getGenState() == IDLE) {

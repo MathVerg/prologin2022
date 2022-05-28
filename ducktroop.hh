@@ -67,6 +67,11 @@ protected:
      * actual size, including duck that have not spawned yet
      */
     int mActualSize = TAILLE_DEPART;
+
+    /**
+     * the last turn during which we growed
+     */
+    int lastGrowthTurn = -1;
 public:
     Ducktroop(int id, Env* env);
 

@@ -41,7 +41,11 @@ void Ducktroop::avancerTroupe(direction dir) {
 }
 
 void Ducktroop::grandirTroupe() {
+    if (lastGrowthTurn == tour_actuel()) {
+        return;
+    }
     erreur err = grandir(mId);
+    lastGrowthTurn = tour_actuel();
     mActualSize++;
     if (err) {
         afficher_erreur(err);
