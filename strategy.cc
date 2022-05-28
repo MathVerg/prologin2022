@@ -8,3 +8,11 @@ Strategy::Strategy(Env* env)
 Strategy::~Strategy()
 {
 }
+
+void Strategy::init() {
+
+}
+
+void Strategy::play() {
+
+}

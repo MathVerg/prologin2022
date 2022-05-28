@@ -132,7 +132,7 @@ dir_path closePos(const position& ref, const pos_vec& list, uint dmax) {
     return {};
 }
 
-bool isDucked(position& pos) {
+bool isDucked(const position& pos) {
     vector<troupe> troops = troupes_joueur(moi());
     vector<troupe> othertroops = troupes_joueur(adversaire());
     troops.insert(troops.begin(), othertroops.begin(), othertroops.end());

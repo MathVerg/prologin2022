@@ -17,3 +17,6 @@ CHAMPION_FILES += interface.cc api.hh
 
 fight:
 	stechec2-run config.yml
+
+debug:
+	stechec2-run -d 1 config.yml
