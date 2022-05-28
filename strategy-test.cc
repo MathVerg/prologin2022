@@ -2,6 +2,7 @@
 #include "utils.hh"
 #include "ducktroop-baker.hh"
 #include "ducktroop-rusher.hh"
+#include "troopless-loops.hh"
 
 using namespace std;
 
@@ -28,4 +29,5 @@ void StrategyTest::play() {
     }
     mTroop1->specificPlay();
     mTroop2->specificPlay();
+    oneBushKillPerTurn(mEnv, 20);
 }

@@ -5,9 +5,10 @@
  * We have two important things :
  * - an environment, which contains up do date information about the field (bagends, position of nests, etc.)
  * - a strategy, which tells how to actually play
+ * One subtelty about the environment is the map of bagends : all the place where you are sure to ultimately die if you go because there is no possible turn back.
  * The strategy can rely on troops. Troops have general routines for getting to an objective, and can be inherited to specify their behavior.
  * I have written two specified troops so far : Baker (fetch bread) and Rusher (rush to own the free nests), but more can be writtn, with different behaviors.
- * A strategy can also make use of a bush placing loop and a tunnel digging loop (not sure I will have the time to implement them though)
+ * A strategy can also make use of a bush placing and tunnel digging loop
  * And then, I tried different combinations of troops and loops until I found something satisfactory...
  * With more time I would have made a python script that generate strategies and run them againt different maps and opponents to find a good one.
  */

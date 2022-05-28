@@ -8,6 +8,7 @@ CHAMPION_FILES = champion.cc \
 				env.hh env.cc \
 				strategy.hh strategy.cc \
 				strategy-test.hh  strategy-test.cc \
+				troopless-loops.hh troopless-loops.cc \
 				utils.hh utils.cc 
 
 # ----
